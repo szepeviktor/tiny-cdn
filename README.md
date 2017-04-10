@@ -32,5 +32,6 @@ add_filter( 'tiny_cdn_excludes', function () { return '#\.php#'; } );
 
 ### Recommendations
 
-- Aviod query strings on CDN
-- Don't let browsers send cookies to CDN on a subdomain
+- Aviod query strings on CDN, use [Resource Versioning](https://wordpress.org/plugins/resource-versioning/)
+- Don't let browsers send cookies to CDN on a subdomain, set `define( 'COOKIE_DOMAIN', 'your.domain' );`
+- Set canonical HTTP header for CDN requests `Link: <https://www.example.com/path/image.jpg>; rel="canonical"`

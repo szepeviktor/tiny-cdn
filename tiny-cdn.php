@@ -2,7 +2,7 @@
 /*
 Plugin Name: Tiny CDN
 Description: Use an origin pull CDN with very few lines of code.
-Version: 0.1.0
+Version: 0.1.1
 Author: Viktor Szépe
 License: GNU General Public License (GPL) version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -54,6 +54,7 @@ final class O1_Tiny_Cdn {
 
         // Rewrite URL-s in post_content
         add_filter( 'the_content', array( $this, 'images' ), 9999 );
+        add_filter( 'widget_text', array( $this, 'images' ), 9999 );
     }
 
     /**
@@ -148,17 +149,3 @@ final class O1_Tiny_Cdn {
 }
 
 new O1_Tiny_Cdn();
-
-/*
- https://www.itsupportguides.com/knowledge-base/wordpress/wordpress-how-to-serve-static-content-from-a-cookieless-domain/
- https://codex.wordpress.org/Editing_wp-config.php#Set_Cookie_Domain
- define( 'COOKIE_DOMAIN', site_url()/domain part );
- Test cookies on CDN!
-
- Avoid query string -> Use resource-versioning plugin
-
- W3TC
- - Add canonical header ???
- - Exclude filter ($url, $old_url) default: ".php"
- - subdomain for CDN -> Set cookie domain to xxx (Don't send cookies to CDN)
-*/
