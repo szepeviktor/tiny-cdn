@@ -150,22 +150,12 @@ final class O1_Tiny_Cdn {
 new O1_Tiny_Cdn();
 
 /*
-Works with custom wp-content location
-No multisite support -> wp-cdn-rewrite get_rewrite_path()
-define( 'TINY_CDN_INCLUDES_URL', 'https://d2aaaaaaaaaaae.cloudfront.net/wp-includes' );
-define( 'TINY_CDN_CONTENT_URL', 'https://d2aaaaaaaaaaae.cloudfront.net/wp-content' );
-filter example: at 'init'
-tiny_cdn_disable
-tiny_cdn_capability
-tiny_cdn_excludes
-
  https://www.itsupportguides.com/knowledge-base/wordpress/wordpress-how-to-serve-static-content-from-a-cookieless-domain/
  https://codex.wordpress.org/Editing_wp-config.php#Set_Cookie_Domain
  define( 'COOKIE_DOMAIN', site_url()/domain part );
  Test cookies on CDN!
 
- Don't use CDN when user has capability
- Avoid query string -> resource-versioning
+ Avoid query string -> Use resource-versioning plugin
 
  W3TC
  - Add canonical header ???
