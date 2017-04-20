@@ -35,3 +35,5 @@ add_filter( 'tiny_cdn_excludes', function () { return '#\.php#'; } );
 - Aviod query strings on CDN, use [Resource Versioning](https://wordpress.org/plugins/resource-versioning/)
 - Don't let browsers send cookies to CDN on a subdomain, set `define( 'COOKIE_DOMAIN', 'your.domain' );`
 - Set canonical HTTP header for CDN requests `Link: <https://www.example.com/path/image.jpg>; rel="canonical"`
+- See [/webserver/Amazon-CloudFront.md](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/Amazon-CloudFront.md)
+- See [/webserver/CloudFlare.md](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/CloudFlare.md)
