@@ -32,15 +32,16 @@ final class O1_Tiny_Cdn {
 
         $capability = apply_filters( 'tiny_cdn_capability', 'edit_pages' );
 
-        if ( apply_filters( 'tiny_cdn_disable', false ) || ( current_user_can( $capability ) ) {
+        if ( apply_filters( 'tiny_cdn_disable', false ) || current_user_can( $capability ) ) {
             return;
         }
 
         // Excludes regexp
         $this->excludes = apply_filters( 'tiny_cdn_excludes', '#\.php#' );
 
-        // ? add_filter( 'includes_url', array( $this, 'rewrite_includes' ), 9999 );
-        // ? add_filter( 'content_url', array( $this, 'rewrite_content' ), 9999 );
+        // @FIXME resource-versioning plugin
+        //add_filter( 'includes_url', array( $this, 'rewrite_includes' ), 9999 );
+        //add_filter( 'content_url', array( $this, 'rewrite_content' ), 9999 );
 
         // Rewrite style and script URL-s
         add_filter( 'script_loader_src', array( $this, 'rewrite' ), 9999 );
@@ -132,7 +133,7 @@ final class O1_Tiny_Cdn {
     public function images( $content ) {
 
         // Only catch images inserted with the editor
-        //           (        1        )(  2  )(      3      )
+        //           (        1        )(  2  )(         3          )
         $pattern = '|(<img [^>]*\bsrc=")([^"]+)(" [^>]*\balt="[^"]*")|';
 
         $content = preg_replace_callback(
