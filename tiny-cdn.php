@@ -2,13 +2,13 @@
 /*
 Plugin Name: Tiny CDN
 Description: Use an origin pull CDN with very few lines of code.
-Version: 0.1.2
+Version: 0.1.3
 Author: Viktor Szépe
 License: GNU General Public License (GPL) version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 GitHub Plugin URI: https://github.com/szepeviktor/tiny-cdn
-Constants: TINY_CDN_CONTENT_URL
 Constants: TINY_CDN_INCLUDES_URL
+Constants: TINY_CDN_CONTENT_URL
 */
 
 final class O1_Tiny_Cdn {
@@ -39,19 +39,19 @@ final class O1_Tiny_Cdn {
         // Excludes regexp
         $this->excludes = apply_filters( 'tiny_cdn_excludes', '#\.php#' );
 
-        // @FIXME resource-versioning plugin
+        // Don't go this deep
         //add_filter( 'includes_url', array( $this, 'rewrite_includes' ), 9999 );
         //add_filter( 'content_url', array( $this, 'rewrite_content' ), 9999 );
+
+        // Rewrite URL-s of files under /wp-content
+        add_filter( 'plugins_url', array( $this, 'rewrite_content' ), 9999 );
+        add_filter( 'theme_root_uri', array( $this, 'rewrite_content' ), 9999 );
+        // @FIXME 'wp_get_attachment_image_src' filter
+        add_filter( 'upload_dir', array( $this, 'uploads' ), 9999 );
 
         // Rewrite style and script URL-s
         add_filter( 'script_loader_src', array( $this, 'rewrite' ), 9999 );
         add_filter( 'style_loader_src', array( $this, 'rewrite' ), 9999 );
-
-        // Rewrite /wp-content file URL-s
-        add_filter( 'plugins_url', array( $this, 'rewrite_content' ), 9999 );
-        add_filter( 'theme_root_uri', array( $this, 'rewrite_content' ), 9999 );
-        // ? wp_get_attachment_image_src
-        add_filter( 'upload_dir', array( $this, 'uploads' ), 9999 );
 
         // Rewrite URL-s in post_content
         add_filter( 'the_content', array( $this, 'images' ), 9999 );
@@ -59,12 +59,12 @@ final class O1_Tiny_Cdn {
 
         // Third-parties
         add_filter( 'wpseo_opengraph_image', array( $this, 'rewrite_content' ), 9999 );
-        // Expose rewrite_content as a filter
+        // Expose rewrite_content as a filter, e.g. for Resource Versioning plugin
         add_filter( 'tiny_cdn', array( $this, 'rewrite_content' ) );
     }
 
     /**
-     * Rewrite both includes and content URL-s.
+     * Rewrite both includes URL and content URL.
      */
     public function rewrite( $url ) {
 
