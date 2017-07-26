@@ -5,7 +5,11 @@ Use an origin pull CDN with very few lines of code.
 - Works with custom `/wp-content` location
 - Does not support multisite installations @TODO wp-cdn-rewrite plugin `get_rewrite_path()`
 
+Pull requests are welcome on [GitHub](https://github.com/szepeviktor/tiny-cdn).
+
 ### Installation
+
+This plugins has no user interface.
 
 Set `/wp-includes` (optional) and `/wp-content` (optional) CDN URL-s in your `wp-config.php`.
 
