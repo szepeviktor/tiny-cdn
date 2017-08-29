@@ -3,8 +3,8 @@ Contributors: szepe.viktor
 Donate link: https://szepe.net/wp-donate/
 Tags: CDN, content delivery network, optimization, performance
 Requires at least: 4.0
-Tested up to: 4.8
-Stable tag: 0.1.3
+Tested up to: 4.8.1
+Stable tag: 0.1.4
 License: GPLv2
 
 Use an origin pull CDN with very few lines of code.
@@ -49,6 +49,9 @@ Hook into these filters before `template_redirect` time.
     add_filter( 'tiny_cdn_excludes', function () { return '#\.php#'; } );
 
 == Changelog ==
+
+= 0.1.4 =
+* Filter post post thumbnail too
 
 = 0.1.3 =
 * First release on WP.org
