@@ -3,8 +3,8 @@ Contributors: szepe.viktor
 Donate link: https://szepe.net/wp-donate/
 Tags: CDN, content delivery network, optimization, performance
 Requires at least: 4.0
-Tested up to: 4.8.1
-Stable tag: 0.1.4
+Tested up to: 4.9
+Stable tag: 0.1.5
 License: GPLv2
 
 Use an origin pull CDN with very few lines of code.
@@ -50,8 +50,11 @@ Hook into these filters before `template_redirect` time.
 
 == Changelog ==
 
+= 0.1.5 =
+* Add support for Yoast's `wpseo_xml_sitemap_img_src` filter
+
 = 0.1.4 =
-* Filter post post thumbnail too
+* Filter post thumbnail too
 
 = 0.1.3 =
 * First release on WP.org

@@ -2,7 +2,7 @@
 /*
 Plugin Name: Tiny CDN
 Description: Use an origin pull CDN with very few lines of code.
-Version: 0.1.4
+Version: 0.1.5
 Author: Viktor Szépe
 License: GNU General Public License (GPL) version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -46,7 +46,6 @@ final class O1_Tiny_Cdn {
         // Rewrite URL-s of files under /wp-content
         add_filter( 'plugins_url', array( $this, 'rewrite_content' ), 9999 );
         add_filter( 'theme_root_uri', array( $this, 'rewrite_content' ), 9999 );
-        // @FIXME 'wp_get_attachment_image_src' filter
         add_filter( 'upload_dir', array( $this, 'uploads' ), 9999 );
 
         // Rewrite style and script URL-s
@@ -62,6 +61,7 @@ final class O1_Tiny_Cdn {
 
         // Third-parties
         add_filter( 'wpseo_opengraph_image', array( $this, 'rewrite_content' ), 9999 );
+        add_filter( 'wpseo_xml_sitemap_img_src', array( $this, 'rewrite_content' ), 9999 );
         // Expose rewrite_content as a filter, e.g. for Resource Versioning plugin
         add_filter( 'tiny_cdn', array( $this, 'rewrite_content' ) );
     }
