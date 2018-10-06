@@ -2,7 +2,7 @@
 /*
 Plugin Name: Tiny CDN
 Description: Use an origin pull CDN with very few lines of code.
-Version: 0.1.5
+Version: 0.1.6
 Author: Viktor Szépe
 License: GNU General Public License (GPL) version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,9 @@ final class O1_Tiny_Cdn {
 
     /**
      * Rewrite both includes URL and content URL.
+     *
+     * @param string $url
+     * @return string
      */
     public function rewrite( $url ) {
 
@@ -83,6 +86,9 @@ final class O1_Tiny_Cdn {
 
     /**
      * Rewrite content URL.
+     *
+     * @param string $url
+     * @return string
      */
     public function rewrite_content( $url ) {
 
@@ -97,6 +103,9 @@ final class O1_Tiny_Cdn {
 
     /**
      * Replace includes URL if the given constant is present.
+     *
+     * @param string $url
+     * @return string
      */
     private function replace_includes( $url ) {
 
@@ -112,6 +121,9 @@ final class O1_Tiny_Cdn {
 
     /**
      * Replace content URL if the given constant is present.
+     *
+     * @param string $url
+     * @return string
      */
     private function replace_content( $url ) {
 
@@ -126,6 +138,9 @@ final class O1_Tiny_Cdn {
 
     /**
      * Rewrite uploads URL.
+     *
+     * @param array $upload_data
+     * @return array
      */
     public function uploads( $upload_data ) {
 
@@ -137,6 +152,9 @@ final class O1_Tiny_Cdn {
 
     /**
      * Rewrite image URL-s in post content.
+     *
+     * @param string $content
+     * @return string
      */
     public function images( $content ) {
 
@@ -158,11 +176,14 @@ final class O1_Tiny_Cdn {
 
     /**
      * Rewrite image URL of post thumbnail.
+     *
+     * @param array|false $image
+     * @return array|false
      */
     public function thumbnail( $image ) {
 
         if ( is_array( $image ) && array_key_exists( 'src', $image ) ) {
-            $image->src = $this->rewrite_content( $image->src );
+            $image['src'] = $this->rewrite_content( $image['src'] );
         }
 
         return $image;
