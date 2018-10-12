@@ -4,7 +4,7 @@ Donate link: https://szepe.net/wp-donate/
 Tags: CDN, content delivery network, optimization, performance
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 0.1.6
+Stable tag: 0.2.0
 License: GPLv2
 
 Use an origin pull CDN with very few lines of code.
@@ -49,6 +49,10 @@ Hook into these filters before `template_redirect` time.
     add_filter( 'tiny_cdn_excludes', function () { return '#\.php#'; } );
 
 == Changelog ==
+
+= 0.2.0 =
+* Fix hook timing for `wpseo_xml_sitemap_img_src` filter
+* Introduce filters before the template runs
 
 = 0.1.6 =
 * Big typo in handling image thumbnails

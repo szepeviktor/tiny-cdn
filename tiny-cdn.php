@@ -1,18 +1,23 @@
 <?php
-/*
-Plugin Name: Tiny CDN
-Description: Use an origin pull CDN with very few lines of code.
-Version: 0.1.6
-Author: Viktor Szépe
-License: GNU General Public License (GPL) version 2
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-GitHub Plugin URI: https://github.com/szepeviktor/tiny-cdn
-Constants: TINY_CDN_INCLUDES_URL
-Constants: TINY_CDN_CONTENT_URL
-*/
+/**
+ * Plugin Name: Tiny CDN
+ * Description: Use an origin pull CDN with very few lines of code.
+ * Version: 0.2.0
+ * Author: Viktor Szépe
+ * License: GNU General Public License (GPL) version 2
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * GitHub Plugin URI: https://github.com/szepeviktor/tiny-cdn
+ * Constants: TINY_CDN_INCLUDES_URL
+ * Constants: TINY_CDN_CONTENT_URL
+ */
 
 final class O1_Tiny_Cdn {
 
+    /**
+     * Exclusion pattern
+     *
+     * @var string $excludes
+     */
     private $excludes;
 
     public function __construct() {
@@ -21,7 +26,16 @@ final class O1_Tiny_Cdn {
             return;
         }
 
-        // Just before WordPress determines which template page to load
+        // Filter to disable TinyCDN early
+        if ( true === apply_filters( 'tiny_cdn_disable_early', false ) ) {
+            return;
+        }
+
+        // Yoast sitemap is generated outside the template
+        add_filter( 'wpseo_xml_sitemap_img_src', array( $this, 'rewrite_content' ), 9999 );
+        // Expose rewrite_content early as a filter for rewrites before the template
+        add_filter( 'tiny_cdn_early', array( $this, 'rewrite_content' ) );
+        // Add rewrites for template pages
         add_action( 'template_redirect', array( $this, 'hooks' ) );
     }
 
@@ -30,8 +44,9 @@ final class O1_Tiny_Cdn {
      */
     public function hooks() {
 
+        // Capability for rewriting frontend asset URL-s
         $capability = apply_filters( 'tiny_cdn_capability', 'edit_pages' );
-
+        // Filter to disable TinyCDN from the template
         if ( apply_filters( 'tiny_cdn_disable', false ) || current_user_can( $capability ) ) {
             return;
         }
@@ -61,7 +76,7 @@ final class O1_Tiny_Cdn {
 
         // Third-parties
         add_filter( 'wpseo_opengraph_image', array( $this, 'rewrite_content' ), 9999 );
-        add_filter( 'wpseo_xml_sitemap_img_src', array( $this, 'rewrite_content' ), 9999 );
+
         // Expose rewrite_content as a filter, e.g. for Resource Versioning plugin
         add_filter( 'tiny_cdn', array( $this, 'rewrite_content' ) );
     }
@@ -114,7 +129,7 @@ final class O1_Tiny_Cdn {
         }
 
         $includes_url = site_url( '/' . WPINC, null );
-        $url = str_replace( $includes_url, TINY_CDN_INCLUDES_URL, $url );
+        $url          = str_replace( $includes_url, TINY_CDN_INCLUDES_URL, $url );
 
         return $url;
     }
@@ -144,7 +159,7 @@ final class O1_Tiny_Cdn {
      */
     public function uploads( $upload_data ) {
 
-        $upload_data['url'] = $this->rewrite_content( $upload_data['url'] );
+        $upload_data['url']     = $this->rewrite_content( $upload_data['url'] );
         $upload_data['baseurl'] = $this->rewrite_content( $upload_data['baseurl'] );
 
         return $upload_data;
